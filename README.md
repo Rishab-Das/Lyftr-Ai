@@ -19,9 +19,9 @@ FastAPI ──► SQLite (/data/app.db)         history per session_id
 
 | What | URL |
 | --- | --- |
-| Frontend | `TODO: https://<your-frontend>` |
-| Backend | `TODO: https://<your-backend>` |
-| Backend health | `TODO: https://<your-backend>/health` |
+| Frontend | https://lyftr-ai-zeta.vercel.app |
+| Backend | https://lyftr-chat-backend-pkhk.onrender.com (landing page at `/`, API docs at `/docs`) |
+| Backend health | https://lyftr-chat-backend-pkhk.onrender.com/health |
 | Demo video | `TODO: link` |
 
 ### How it was deployed
@@ -32,7 +32,7 @@ FastAPI ──► SQLite (/data/app.db)         history per session_id
 | Variable | Value |
 | --- | --- |
 | `LLM_API_KEYS` | `key_one,key_two` (at least two) |
-| `ALLOWED_ORIGINS` | the frontend URL, for example `https://my-chat.vercel.app` |
+| `ALLOWED_ORIGINS` | the frontend URL (deployed: `https://lyftr-ai-zeta.vercel.app`), comma separated if there are several |
 | `ENABLE_FAILURE_SIMULATION` | `true` (required so the failover hook can be demonstrated) |
 | `DATABASE_URL` | `sqlite:////data/app.db` |
 
@@ -229,10 +229,10 @@ python3 scripts/verify_contract.py $BASE --origin https://<your-frontend>
 
 ## 5. Setup Used
 
-- Editor: `TODO: your editor`
+- Editor: Visual Studio Code
 - AI tools: Claude (Anthropic) was used to draft the backend, frontend, tests, Docker setup and this README.
 - Stack: Python 3.13, FastAPI, LiteLLM 1.110, aiosqlite, React 18 with Vite and TypeScript, nginx, Docker Compose.
-- Model provider: `TODO: Google AI Studio (Gemini) keys, or whichever you used`. Note that Gemini rate limits apply per
+- Model provider: Google AI Studio (Gemini), model `gemini/gemini-3.1-flash-lite`, two keys in the pool. Note that Gemini rate limits apply per
   Google Cloud project, not per key, so keys from two different projects give real failover headroom.
 
 ## 6. Bonus features
@@ -244,6 +244,11 @@ python3 scripts/verify_contract.py $BASE --origin https://<your-frontend>
 - **`scripts/verify_contract.py`:** an executable version of the contract, usable against the deployed URLs.
 - **Extra metadata chips** in the UI (`meta-key`, `meta-fallbacks`) showing which key answered and how many failed first.
 - **Runtime-configurable frontend image:** the container writes `config.js` from `API_URL` at start-up, so one image works for any backend URL.
+- **Live insights panel** in the UI: cache hit rate, average live latency, failovers, token totals, a latency sparkline and per-key usage for the current session.
+- **Server status pill and cold-start handling:** the page wakes the free-tier backend on load and says so while it does.
+- **Failure presets** in Developer options (`key_1=429`, both keys failing, everything failing) for one-click failover demos.
+- **Markdown rendering** of replies (code blocks, lists, tables), copy buttons, light and dark themes, responsive layout.
+- **Backend landing page and documented OpenAPI** at `/` and `/docs`.
 - **Readable errors everywhere:** 422, 503, timeouts and network failures all appear as plain messages in the chat.
 
 ## Project layout

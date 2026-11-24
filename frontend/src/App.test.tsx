@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
@@ -39,11 +39,11 @@ describe("chat contract", () => {
 
     const msg = await screen.findByTestId("assistant-message");
     expect(msg).toHaveTextContent("Paris is the capital of France.");
-    expect(within(msg).getByTestId("meta-source")).toHaveTextContent(/^LIVE_INFERENCE$/);
-    expect(within(msg).getByTestId("meta-model")).toHaveTextContent(/^gemini\/test-model$/);
-    expect(within(msg).getByTestId("meta-latency")).toHaveTextContent(/^812 ms$/);
-    expect(within(msg).getByTestId("meta-input-tokens")).toHaveTextContent(/^42$/);
-    expect(within(msg).getByTestId("meta-output-tokens")).toHaveTextContent(/^9$/);
+    expect(screen.getByTestId("meta-source")).toHaveTextContent(/^LIVE_INFERENCE$/);
+    expect(screen.getByTestId("meta-model")).toHaveTextContent(/^gemini\/test-model$/);
+    expect(screen.getByTestId("meta-latency")).toHaveTextContent(/^812 ms$/);
+    expect(screen.getByTestId("meta-input-tokens")).toHaveTextContent(/^42$/);
+    expect(screen.getByTestId("meta-output-tokens")).toHaveTextContent(/^9$/);
     expect(input.value).toBe("");
 
     const [url, init] = fetchMock.mock.calls[0];

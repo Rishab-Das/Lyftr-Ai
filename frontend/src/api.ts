@@ -1,5 +1,5 @@
 import { API_URL, REQUEST_TIMEOUT_MS } from "./config";
-import type { ChatResponse } from "./types";
+import type { ChatResponse, HealthInfo } from "./types";
 
 export class ChatError extends Error {}
 
@@ -67,4 +67,17 @@ export async function sendChat(options: SendOptions): Promise<ChatResponse> {
   }
   const text = typeof detail === "string" ? detail : `status ${response.status}`;
   throw new ChatError(`Something went wrong on the server (${text}). Please try again.`);
+}
+
+/** Ping GET /health. Resolves with the body when the server is up, rejects otherwise. */
+export async function checkHealth(timeoutMs = 75_000): Promise<HealthInfo> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(`${API_URL}/health`, { signal: controller.signal });
+    if (!response.ok) throw new Error(`health ${response.status}`);
+    return (await response.json()) as HealthInfo;
+  } finally {
+    window.clearTimeout(timer);
+  }
 }

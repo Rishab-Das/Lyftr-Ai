@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light dark" />
-    <title>LLM Chat · key failover and caching</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234f46e5'/%3E%3Cpath d='M18 22h28v16H34l-8 8v-8h-8z' fill='white'/%3E%3C/svg%3E" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0b0c12" />
+    <meta name="description" content="Chat with an LLM that fails over across a pool of API keys, caches repeated answers and reports token usage on every reply." />
+    <title>Lyftr Chat · key failover, caching and token metering</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237c6cff'/%3E%3Cpath d='M18 22h28v16H34l-8 8v-8h-8z' fill='white'/%3E%3C/svg%3E" />
     <!-- Runtime config. The Docker image rewrites this file from the API_URL env var. -->
     <script src="/config.js"></script>
   </head>

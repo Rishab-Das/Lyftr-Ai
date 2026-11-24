@@ -21,3 +21,10 @@ export type ChatItem =
 
 // Omit<Union, "id"> would collapse the union, so distribute it over each member.
 export type NewChatItem = ChatItem extends infer T ? (T extends ChatItem ? Omit<T, "id"> : never) : never;
+
+export type ServerState = "checking" | "waking" | "online" | "offline";
+
+export interface HealthInfo {
+  keys_configured?: number;
+  cache_enabled?: boolean;
+}

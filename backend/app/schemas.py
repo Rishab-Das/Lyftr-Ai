@@ -11,9 +11,18 @@ MAX_SYSTEM_PROMPT_CHARS = 8000
 
 
 class ChatRequest(BaseModel):
-    session_id: str = Field(..., min_length=1, max_length=128)
-    message: str = Field(...)
-    system_prompt: str | None = Field(default=None, max_length=MAX_SYSTEM_PROMPT_CHARS)
+    session_id: str = Field(
+        ..., min_length=1, max_length=128, description="Client-chosen conversation id.", examples=["s-1a2b3c4d"]
+    )
+    message: str = Field(
+        ..., description=f"User message, 1 to {MAX_MESSAGE_CHARS} characters after trimming.", examples=["Explain what an API gateway does."]
+    )
+    system_prompt: str | None = Field(
+        default=None,
+        max_length=MAX_SYSTEM_PROMPT_CHARS,
+        description="Optional persona for the session. It is stored and reused on later turns.",
+        examples=["You are a concise senior engineer."],
+    )
 
     @field_validator("session_id")
     @classmethod
@@ -40,13 +49,15 @@ class ChatRequest(BaseModel):
 
 
 class ChatMetadata(BaseModel):
-    resolution_source: Literal["LIVE_INFERENCE", "LLM_CACHE"]
-    model: str
-    latency_ms: int
-    input_tokens: int
-    output_tokens: int
-    key_id: str | None
-    fallback_attempts: int
+    resolution_source: Literal["LIVE_INFERENCE", "LLM_CACHE"] = Field(
+        description="LLM_CACHE when the answer came from the response cache, otherwise LIVE_INFERENCE."
+    )
+    model: str = Field(description="Model that produced the answer.")
+    latency_ms: int = Field(description="Total server-side time for this request.")
+    input_tokens: int = Field(description="Prompt tokens (original usage is replayed on cache hits).")
+    output_tokens: int = Field(description="Completion tokens.")
+    key_id: str | None = Field(description="Pool key that served the request, null on a cache hit.")
+    fallback_attempts: int = Field(description="Keys that failed (429, quota or 5xx) before one succeeded.")
 
 
 class ChatResponse(BaseModel):
