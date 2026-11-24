@@ -1,0 +1,13 @@
+tests
+__pycache__
+*.pyc
+.pytest_cache
+.venv
+venv
+*.db
+*.db-wal
+*.db-shm
+requirements-dev.txt
+pytest.ini
+Dockerfile
+.dockerignore

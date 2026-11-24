@@ -1,0 +1,8 @@
+fastapi==0.165.0
+uvicorn[standard]==0.54.0
+litellm==1.110.3
+aiosqlite==0.22.1
+pydantic==2.14.4
+# litellm's cache code path imports these at runtime even though we do not run the litellm proxy
+orjson==3.13.0
+soundfile==0.14.0
